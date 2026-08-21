@@ -1,10 +1,11 @@
 pipeline {
     agent any
 
+    
     environment {
-        IMAGE_NAME = "my-web-app"
-        CONTAINER_NAME = "my-web-app-container"
-    }
+    IMAGE_NAME = "my-web-app"
+    DOCKER = "/usr/bin/docker"
+}
 
     stages {
 
