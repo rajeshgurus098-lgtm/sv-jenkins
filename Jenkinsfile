@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     
-    environment {
+ environment {
     IMAGE_NAME = "my-web-app"
-    DOCKER = "/usr/bin/docker"
+    CONTAINER_NAME = "my-web-app-container"
 }
 
     stages {
@@ -49,17 +49,15 @@ pipeline {
         }
 
         stage('Docker Run') {
-            steps {
-                echo 'Running Docker Container'
-
-                sh '''
-                docker rm -f $CONTAINER_NAME || true
-                docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
-                docker ps
-                '''
-            }
-        }
+    steps {
+        sh '''
+        docker rm -f $CONTAINER_NAME || true
+        docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
+        docker ps
+        '''
     }
+}
+    
 
     post {
         success {
