@@ -1,11 +1,10 @@
 pipeline {
     agent any
 
-    
- environment {
-    IMAGE_NAME = "my-web-app"
-    CONTAINER_NAME = "my-web-app-container"
-}
+    environment {
+        IMAGE_NAME = "my-web-app"
+        CONTAINER_NAME = "my-web-app-container"
+    }
 
     stages {
 
@@ -24,8 +23,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Running Tests'
-
                 sh '''
                 if [ -f index.html ]; then
                     echo "index.html exists"
@@ -39,25 +36,22 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                echo 'Building Docker Image'
-
                 sh '''
-                $DOCKER build -t $IMAGE_NAME .
-                docker images
+                docker build -t $IMAGE_NAME .
                 '''
             }
         }
 
         stage('Docker Run') {
-    steps {
-        sh '''
-        docker rm -f $CONTAINER_NAME || true
-        docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
-        docker ps
-        '''
+            steps {
+                sh '''
+                docker rm -f $CONTAINER_NAME || true
+                docker run -d --name $CONTAINER_NAME -p 8081:80 $IMAGE_NAME
+                docker ps
+                '''
+            }
+        }
     }
-}
-    
 
     post {
         success {
