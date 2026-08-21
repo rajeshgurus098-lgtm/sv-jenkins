@@ -42,7 +42,7 @@ pipeline {
                 echo 'Building Docker Image'
 
                 sh '''
-                docker build -t $IMAGE_NAME .
+                $DOCKER build -t $IMAGE_NAME .
                 docker images
                 '''
             }
